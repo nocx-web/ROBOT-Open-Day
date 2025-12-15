@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<title>Robot di Benvenuto</title>
+<style>
+  /* Stile generale della pagina */
+  body {
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    color: #00ffff;
+    font-family: 'Arial', sans-serif;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  h1 {
+    font-size: 3em;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 8px #00ffff;
+  }
+
+  #robot {
+    width: 500px;
+    max-width: 90%;
+    margin: 20px 0;
+    transition: transform 0.3s ease;
+    border: 3px solid #00ffff;
+    border-radius: 20px;
+    box-shadow: 0 0 30px #00ffff;
+  }
+
+  #robot:hover {
+    transform: scale(1.05);
+  }
+
+  button {
+    font-size: 1.2em;
+    padding: 15px 30px;
+    margin-top: 20px;
+    cursor: pointer;
+    border: none;
+    border-radius: 10px;
+    background: #00ffff;
+    color: #0b0b0b;
+    font-weight: bold;
+    box-shadow: 0 0 15px #00ffff;
+    transition: all 0.3s ease;
+  }
+
+  button:hover {
+    background: #00e5e5;
+    box-shadow: 0 0 25px #00ffff;
+    transform: translateY(-3px);
+  }
+</style>
+</head>
+<body>
+
+<h1>Laboratorio di INFORMATICA</h1>
+<img id="robot" src="robot_idle.gif" alt="Robot">
+<audio id="voce" src="benvenuto.mp3"></audio>
+<br>
+<button onclick="parla()">Fai parlare il robot</button>
+
+<script>
+function parla() {
+  var robot = document.getElementById("robot");
+  var audio = document.getElementById("voce");
+
+  robot.src = "robot_parla.gif";
+  audio.play();
+
+  audio.onended = function() {
+    robot.src = "robot_idle.gif";
+  }
+}
+</script>
+
+</body>
+</html>
