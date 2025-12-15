@@ -49,15 +49,22 @@
     z-index: 2;
   }
 
-  /* LOGO POP-UP */
+  /* LOGO SEMPRE VISIBILE E ROTANTE ORIZZONTALE */
   #logo {
     position: absolute;
     width: 140px;
-    opacity: 0;
-    transition: opacity 1s ease;
     pointer-events: none;
     z-index: 3;
-	border-radius: 20px;
+    border-radius: 20px;
+
+    /* rotazione continua orizzontale */
+    animation: giraY 8s linear infinite;
+    transform-style: preserve-3d;
+  }
+
+  @keyframes giraY {
+    from { transform: rotateY(0deg); }
+    to   { transform: rotateY(-360deg); } /* da destra a sinistra */
   }
 </style>
 </head>
@@ -77,41 +84,28 @@
 function parla() {
   const robot = document.getElementById("robot");
   const audio = document.getElementById("voce");
+
   robot.src = "robot_parla.gif";
+  audio.currentTime = 0;
   audio.play();
-  audio.onended = () => robot.src = "robot_idle.gif";
+
+  audio.onended = () => {
+    robot.src = "robot_idle.gif";
+  };
 }
 
 const logo = document.getElementById("logo");
 const robot = document.getElementById("robot");
-let lato = "destra";
 
-function mostraLogo() {
+function posizionaLogo() {
   const rect = robot.getBoundingClientRect();
-
-  if (lato === "destra") {
-    logo.style.left = rect.right + 20 + "px";
-    lato = "sinistra";
-  } else {
-    logo.style.left = rect.left - 160 + "px";
-    lato = "destra";
-  }
-
-  logo.style.top =
-    rect.top + rect.height / 2 - 70 + "px";
-
-  
-  logo.style.opacity = "1";
-
-  
-  setTimeout(() => {
-    logo.style.opacity = "0";
-  }, 4000);
+  logo.style.left = rect.right + 20 + "px";
+  logo.style.top = rect.top + rect.height / 2 - 70 + "px";
 }
 
 
-setInterval(mostraLogo, 6000);
-mostraLogo();
+setInterval(posizionaLogo, 100);
+posizionaLogo();
 </script>
 
 </body>
