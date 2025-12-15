@@ -74,16 +74,26 @@
 <h1>Laboratorio di INFORMATICA</h1>
 
 <img id="robot" src="robot_idle.gif" alt="Robot">
-<audio id="voce" src="benvenuto.mp3"></audio>
 
 <button onclick="parla()">Fai parlare il robot</button>
 
 <img id="logo" src="logo.png" alt="Logo">
 
 <script>
+const robot = document.getElementById("robot");
+const logo = document.getElementById("logo");
+
+
+const audioFiles = [
+  "benvenuto.mp3",
+  "ciao.mp3",
+  "saluto.mp3"
+];
+
 function parla() {
-  const robot = document.getElementById("robot");
-  const audio = document.getElementById("voce");
+  
+  const sceltaCasuale = audioFiles[Math.floor(Math.random() * audioFiles.length)];
+  const audio = new Audio(sceltaCasuale);
 
   robot.src = "robot_parla.gif";
   audio.currentTime = 0;
@@ -93,9 +103,6 @@ function parla() {
     robot.src = "robot_idle.gif";
   };
 }
-
-const logo = document.getElementById("logo");
-const robot = document.getElementById("robot");
 
 function posizionaLogo() {
   const rect = robot.getBoundingClientRect();
