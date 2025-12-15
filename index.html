@@ -3,46 +3,42 @@
 <head>
 <meta charset="UTF-8">
 <title>Robot di Benvenuto</title>
+
 <style>
-  /* Stile generale della pagina */
   body {
     background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
     color: #00ffff;
-    font-family: 'Arial', sans-serif;
+    font-family: Arial, sans-serif;
     text-align: center;
     margin: 0;
-    padding: 0;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    overflow: hidden;
   }
 
   h1 {
     font-size: 3em;
     margin-bottom: 20px;
     text-shadow: 2px 2px 8px #00ffff;
+    z-index: 2;
   }
 
   #robot {
     width: 500px;
     max-width: 90%;
     margin: 20px 0;
-    transition: transform 0.3s ease;
     border: 3px solid #00ffff;
     border-radius: 20px;
     box-shadow: 0 0 30px #00ffff;
-  }
-
-  #robot:hover {
-    transform: scale(1.05);
+    z-index: 2;
   }
 
   button {
     font-size: 1.2em;
     padding: 15px 30px;
-    margin-top: 20px;
     cursor: pointer;
     border: none;
     border-radius: 10px;
@@ -50,36 +46,72 @@
     color: #0b0b0b;
     font-weight: bold;
     box-shadow: 0 0 15px #00ffff;
-    transition: all 0.3s ease;
+    z-index: 2;
   }
 
-  button:hover {
-    background: #00e5e5;
-    box-shadow: 0 0 25px #00ffff;
-    transform: translateY(-3px);
+  /* LOGO POP-UP */
+  #logo {
+    position: absolute;
+    width: 140px;
+    opacity: 0;
+    transition: opacity 1s ease;
+    pointer-events: none;
+    z-index: 3;
+	border-radius: 20px;
   }
 </style>
 </head>
+
 <body>
 
 <h1>Laboratorio di INFORMATICA</h1>
+
 <img id="robot" src="robot_idle.gif" alt="Robot">
 <audio id="voce" src="benvenuto.mp3"></audio>
-<br>
+
 <button onclick="parla()">Fai parlare il robot</button>
+
+<img id="logo" src="logo.png" alt="Logo">
 
 <script>
 function parla() {
-  var robot = document.getElementById("robot");
-  var audio = document.getElementById("voce");
-
+  const robot = document.getElementById("robot");
+  const audio = document.getElementById("voce");
   robot.src = "robot_parla.gif";
   audio.play();
-
-  audio.onended = function() {
-    robot.src = "robot_idle.gif";
-  }
+  audio.onended = () => robot.src = "robot_idle.gif";
 }
+
+const logo = document.getElementById("logo");
+const robot = document.getElementById("robot");
+let lato = "destra";
+
+function mostraLogo() {
+  const rect = robot.getBoundingClientRect();
+
+  if (lato === "destra") {
+    logo.style.left = rect.right + 20 + "px";
+    lato = "sinistra";
+  } else {
+    logo.style.left = rect.left - 160 + "px";
+    lato = "destra";
+  }
+
+  logo.style.top =
+    rect.top + rect.height / 2 - 70 + "px";
+
+  
+  logo.style.opacity = "1";
+
+  
+  setTimeout(() => {
+    logo.style.opacity = "0";
+  }, 4000);
+}
+
+
+setInterval(mostraLogo, 6000);
+mostraLogo();
 </script>
 
 </body>
